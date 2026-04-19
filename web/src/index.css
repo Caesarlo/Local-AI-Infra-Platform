@@ -1,35 +1,35 @@
 @import "tailwindcss";
 
-/* ── Inter（英文/拉丁）── 放 public/fonts/Inter-Variable.woff2 ── */
+/* ── Inter（英文/拉丁）── 放 public/fonts/InterVariable.woff2 ── */
 @font-face {
   font-family: "Inter";
-  src: url("/fonts/Inter-Variable.woff2") format("woff2");
+  src: url("/fonts/InterVariable.woff2") format("woff2");
   font-weight: 100 900;
   font-display: swap;
 }
 
-/* ── 思源黑体 SC（中文）── 放 public/fonts/SourceHanSansSC-*.woff2 ── */
+/* ── 思源黑体（中文）── 放 public/fonts/SourceHanSansTC-*.woff2 ── */
 @font-face {
   font-family: "Source Han Sans SC";
-  src: url("/fonts/SourceHanSansSC-Light.woff2") format("woff2");
+  src: url("/fonts/SourceHanSansTC-Light.woff2") format("woff2");
   font-weight: 300;
   font-display: swap;
 }
 @font-face {
   font-family: "Source Han Sans SC";
-  src: url("/fonts/SourceHanSansSC-Regular.woff2") format("woff2");
+  src: url("/fonts/SourceHanSansTC-Regular.woff2") format("woff2");
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
   font-family: "Source Han Sans SC";
-  src: url("/fonts/SourceHanSansSC-Medium.woff2") format("woff2");
+  src: url("/fonts/SourceHanSansTC-Medium.woff2") format("woff2");
   font-weight: 500;
   font-display: swap;
 }
 @font-face {
   font-family: "Source Han Sans SC";
-  src: url("/fonts/SourceHanSansSC-Bold.woff2") format("woff2");
+  src: url("/fonts/SourceHanSansTC-Bold.woff2") format("woff2");
   font-weight: 700;
   font-display: swap;
 }

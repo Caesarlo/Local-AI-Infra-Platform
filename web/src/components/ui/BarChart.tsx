@@ -4,10 +4,12 @@ import {
   CartesianGrid,
   Cell,
   ResponsiveContainer,
+  type TooltipProps,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
+import type { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
 
 type BarConfig = {
   key: string;
@@ -29,10 +31,7 @@ function ChartTooltipContent({
   payload,
   label,
   formatTooltipValue,
-}: {
-  active?: boolean;
-  payload?: { dataKey: string; value: unknown; color: string; name: string }[];
-  label?: unknown;
+}: TooltipProps<ValueType, NameType> & {
   formatTooltipValue?: (value: unknown, key: string) => string;
 }) {
   if (!active || !payload?.length) return null;
@@ -41,12 +40,12 @@ function ChartTooltipContent({
       <p className="mb-2 text-text-muted">{String(label)}</p>
       <div className="flex flex-col gap-1">
         {payload.map((entry) => (
-          <div key={entry.dataKey} className="flex items-center gap-2">
+          <div key={String(entry.dataKey)} className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full shrink-0" style={{ background: entry.color }} />
             <span className="text-text-body">{entry.name}:</span>
             <span className="font-medium text-text-primary">
               {formatTooltipValue
-                ? formatTooltipValue(entry.value, entry.dataKey)
+                ? formatTooltipValue(entry.value, String(entry.dataKey))
                 : String(entry.value)}
             </span>
           </div>

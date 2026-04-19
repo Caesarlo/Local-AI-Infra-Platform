@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const tabs = [
@@ -18,25 +18,17 @@ export function TabNav() {
   const navigate = useNavigate();
 
   return (
-    <nav className="flex items-center gap-3">
-      {tabs.map((tab) => {
-        const active = isTabActive(location.pathname, tab.path);
-        return (
-          <button
-            key={tab.path}
-            type="button"
-            onClick={() => navigate(tab.path)}
-            className={cn(
-              "flex h-[50px] w-[100px] items-center justify-center rounded-2xl text-sm transition-colors",
-              active
-                ? "bg-[#111111] font-semibold text-white"
-                : "bg-[#EEEEEE] font-normal text-[#3F3F3F] hover:bg-[#E0E0E0]",
-            )}
-          >
-            {tab.label}
-          </button>
-        );
-      })}
+    <nav className="flex items-center gap-2">
+      {tabs.map((tab) => (
+        <Button
+          key={tab.path}
+          variant={isTabActive(location.pathname, tab.path) ? "primary" : "ghost"}
+          size="md"
+          onClick={() => navigate(tab.path)}
+        >
+          {tab.label}
+        </Button>
+      ))}
     </nav>
   );
 }

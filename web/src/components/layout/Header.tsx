@@ -1,3 +1,4 @@
+import { Input } from "@/components/ui/Input";
 import { Search } from "lucide-react";
 import { TabNav } from "./TabNav";
 
@@ -11,10 +12,11 @@ export function Header({ actions }: HeaderProps) {
       <TabNav />
       <div className="flex items-center gap-3">
         {actions}
-        <div className="flex h-[44px] w-[150px] items-center gap-2 rounded-full bg-white/40 px-4 backdrop-blur-sm border border-white/50">
-          <Search className="h-3.5 w-3.5 shrink-0 text-text-muted" />
-          <span className="text-sm text-text-muted">搜索项目 / Key</span>
-        </div>
+        <Input
+          prefixIcon={<Search className="h-3.5 w-3.5" />}
+          placeholder="搜索项目 / Key"
+          className="w-[150px]"
+        />
       </div>
     </header>
   );

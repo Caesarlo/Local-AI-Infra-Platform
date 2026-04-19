@@ -20,7 +20,38 @@ export const handlers = [
       ttft_p50_ms: 300,
       new_keys_today: 0,
       total_keys: 8,
+      error_rate_5xx_pct: 0.42,
+      rate_limit_429_pct: 1.8,
+      concurrency_utilization_pct: 75,
+      gpu_vram_peak_pct: 91,
+      anomaly_summary: '近 5 分钟出现 2 次 5xx 峰值，主要集中在 gemma4-27b 的高并发请求。',
     })
+  }),
+
+  http.get('/admin/metrics/timeseries', ({ request }) => {
+    const url = new URL(request.url)
+    const range = url.searchParams.get('range')
+
+    if (range !== '1h') {
+      return HttpResponse.json({ message: 'Unsupported range' }, { status: 400 })
+    }
+
+    return HttpResponse.json([
+      { timestamp: '2026-04-19T10:00:00Z', qps: 2.1 },
+      { timestamp: '2026-04-19T10:10:00Z', qps: 3.4 },
+      { timestamp: '2026-04-19T10:20:00Z', qps: 5.6 },
+      { timestamp: '2026-04-19T10:30:00Z', qps: 4.8 },
+      { timestamp: '2026-04-19T10:40:00Z', qps: 6.2 },
+      { timestamp: '2026-04-19T10:50:00Z', qps: 4.1 },
+      { timestamp: '2026-04-19T11:00:00Z', qps: 5.2 },
+    ])
+  }),
+
+  http.get('/admin/alerts', () => {
+    return HttpResponse.json([
+      { id: 'dashboard-alert-1', message: '1 个实例正在预热，吞吐暂未达到稳态。', level: 'warning' },
+      { id: 'dashboard-alert-2', message: 'GPU 显存峰值已到 91%，建议关注大上下文请求。', level: 'error' },
+    ])
   }),
 
   http.get('/admin/metrics/hardware', () => {
@@ -55,6 +86,7 @@ export const handlers = [
         name: 'gemma4-27b',
         display_name: 'Gemma4-27B-MoE',
         type: 'chat',
+        deployment_summary: 'Nginx + FastAPI + vLLM，单节点 4 卡部署',
         quantization: 'fp8',
         dtype: 'bfloat16',
         tensor_parallel: 4,
@@ -70,6 +102,7 @@ export const handlers = [
         name: 'bge-m3',
         display_name: 'BGE-M3 Embedding',
         type: 'embedding',
+        deployment_summary: 'FastAPI + embedding worker，单实例部署',
         quantization: 'none',
         dtype: 'float16',
         tensor_parallel: 1,

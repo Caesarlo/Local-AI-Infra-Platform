@@ -2,11 +2,13 @@ import {
   CartesianGrid,
   Line,
   LineChart as ReLineChart,
+  type TooltipProps,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
+import type { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
 
 type LineConfig = {
   key: string;
@@ -29,10 +31,7 @@ function ChartTooltipContent({
   label,
   formatX,
   formatTooltipValue,
-}: {
-  active?: boolean;
-  payload?: { dataKey: string; value: unknown; color: string; name: string }[];
-  label?: unknown;
+}: TooltipProps<ValueType, NameType> & {
   formatX?: (value: unknown) => string;
   formatTooltipValue?: (value: unknown, key: string) => string;
 }) {
@@ -42,12 +41,12 @@ function ChartTooltipContent({
       <p className="mb-2 text-text-muted">{formatX ? formatX(label) : String(label)}</p>
       <div className="flex flex-col gap-1">
         {payload.map((entry) => (
-          <div key={entry.dataKey} className="flex items-center gap-2">
+          <div key={String(entry.dataKey)} className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full shrink-0" style={{ background: entry.color }} />
             <span className="text-text-body">{entry.name}:</span>
             <span className="font-medium text-text-primary">
               {formatTooltipValue
-                ? formatTooltipValue(entry.value, entry.dataKey)
+                ? formatTooltipValue(entry.value, String(entry.dataKey))
                 : String(entry.value)}
             </span>
           </div>
