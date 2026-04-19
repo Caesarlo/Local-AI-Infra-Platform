@@ -149,3 +149,4 @@ lib-cov/
 .temp/
 **/.vitepress/dist
 **/.vitepress/cache
+docs/

@@ -1,4 +1,11 @@
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+import { ControlButton } from "@/components/ui/ControlButton";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { Spinner } from "@/components/ui/Spinner";
+import { StatusDot } from "@/components/ui/StatusDot";
+import type { Status } from "@/components/ui/StatusDot";
 import {
   Activity,
   ArrowLeft,
@@ -6,6 +13,7 @@ import {
   Layers3,
   Palette,
   Sparkles,
+  Zap,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -22,12 +30,6 @@ type GradientToken = {
   token: string;
   value: string;
   className: string;
-};
-
-type StatusToken = {
-  name: string;
-  value: string;
-  dotClass: string;
 };
 
 const textColors: ColorToken[] = [
@@ -110,14 +112,7 @@ const gradients: GradientToken[] = [
   },
 ];
 
-const statusColors: StatusToken[] = [
-  { name: "healthy", value: "#34d399", dotClass: "bg-status-healthy" },
-  { name: "degraded", value: "#fbbf24", dotClass: "bg-status-degraded" },
-  { name: "offline", value: "#94a3b8", dotClass: "bg-status-offline" },
-  { name: "starting", value: "#60a5fa", dotClass: "bg-status-starting" },
-  { name: "paused", value: "#fb923c", dotClass: "bg-status-paused" },
-  { name: "error", value: "#f87171", dotClass: "bg-status-error" },
-];
+const statusList: Status[] = ["healthy", "degraded", "offline", "starting", "paused", "error"];
 
 function SectionTitle({
   icon: Icon,
@@ -173,29 +168,6 @@ function GradientCard({ item }: { item: GradientToken }) {
   );
 }
 
-function StatusCard({ item }: { item: StatusToken }) {
-  return (
-    <div className="glass-card-sm flex items-center justify-between gap-4 p-4">
-      <div>
-        <p className="text-sm font-semibold text-text-primary">{item.name}</p>
-        <p className="mt-1 text-xs text-text-subtle">{item.value}</p>
-      </div>
-      <div className="glass-status-pill">
-        <span
-          className={cn(
-            "h-2.5 w-2.5 rounded-full",
-            item.dotClass,
-            item.name === "starting" && "animate-pulse",
-          )}
-        />
-        <span className="text-sm font-medium text-text-secondary">
-          {item.name}
-        </span>
-      </div>
-    </div>
-  );
-}
-
 export default function CardExample() {
   return (
     <div className="min-h-screen bg-page-gradient px-4 py-6 sm:px-6 lg:px-8">
@@ -208,6 +180,7 @@ export default function CardExample() {
           </div>
 
           <div className="relative flex flex-col gap-8">
+            {/* Hero */}
             <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
               <div className="max-w-2xl">
                 <Link to="/dashboard" className="glass-pill mb-5">
@@ -234,9 +207,7 @@ export default function CardExample() {
                       <p className="text-xs uppercase tracking-[0.2em] text-text-subtle">
                         Traffic
                       </p>
-                      <p className="mt-2 text-3xl font-light text-text-primary">
-                        2,589
-                      </p>
+                      <p className="mt-2 text-3xl font-light text-text-primary">2,589</p>
                     </div>
                     <div className="glass-round-icon h-10 w-10">
                       <ChartColumnBig className="h-4 w-4 text-text-secondary" />
@@ -257,9 +228,7 @@ export default function CardExample() {
                       <h2 className="mt-3 text-2xl font-light text-text-primary">
                         Traffic Overview
                       </h2>
-                      <p className="mt-2 text-sm text-text-muted">
-                        In last 7 days
-                      </p>
+                      <p className="mt-2 text-sm text-text-muted">In last 7 days</p>
                     </div>
                     <div className="glass-round-icon h-12 w-12">
                       <Layers3 className="h-5 w-5 text-text-secondary" />
@@ -270,18 +239,14 @@ export default function CardExample() {
                       <p className="text-xs uppercase tracking-[0.18em] text-text-subtle">
                         Conversion
                       </p>
-                      <p className="mt-3 text-2xl font-light text-text-primary">
-                        40.18%
-                      </p>
+                      <p className="mt-3 text-2xl font-light text-text-primary">40.18%</p>
                       <div className="mt-4 h-2 rounded-full bg-warn-gradient" />
                     </div>
                     <div className="glass-card-sm p-4">
                       <p className="text-xs uppercase tracking-[0.18em] text-text-subtle">
                         Engagement
                       </p>
-                      <p className="mt-3 text-2xl font-light text-text-primary">
-                        439
-                      </p>
+                      <p className="mt-3 text-2xl font-light text-text-primary">439</p>
                       <div className="mt-4 h-2 rounded-full bg-accent-gradient-2" />
                     </div>
                   </div>
@@ -289,6 +254,7 @@ export default function CardExample() {
               </div>
             </div>
 
+            {/* Color tokens */}
             <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
               <section className="glass-card p-6">
                 <SectionTitle
@@ -320,17 +286,87 @@ export default function CardExample() {
               </section>
             </div>
 
+            {/* Components showcase */}
+            <div className="grid gap-6 xl:grid-cols-2">
+              {/* Button & Spinner */}
+              <section className="glass-card p-6">
+                <SectionTitle
+                  icon={Zap}
+                  title="Button 组件"
+                  description="三种变体 × 两个尺寸，含 loading / disabled 状态。"
+                />
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Button variant="primary">Primary</Button>
+                    <Button variant="ghost">Ghost</Button>
+                    <Button variant="danger">Danger</Button>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Button variant="primary" size="sm">Primary sm</Button>
+                    <Button variant="ghost" size="sm">Ghost sm</Button>
+                    <Button variant="danger" size="sm">Danger sm</Button>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Button variant="primary" loading>保存中</Button>
+                    <Button variant="ghost" disabled>已禁用</Button>
+                    <Spinner size="sm" className="text-text-muted" />
+                    <Spinner size="md" className="text-text-secondary" />
+                    <Spinner size="lg" className="text-[#334455]" />
+                  </div>
+                </div>
+              </section>
+
+              {/* Badge & StatusDot */}
+              <section className="glass-card p-6">
+                <SectionTitle
+                  icon={Activity}
+                  title="Badge · StatusDot · ControlButton"
+                  description="状态展示与实例操作控件。"
+                />
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="success">200 OK</Badge>
+                    <Badge variant="warning">429 限流</Badge>
+                    <Badge variant="error">500 错误</Badge>
+                    <Badge variant="info">信息</Badge>
+                    <Badge variant="neutral">中性</Badge>
+                  </div>
+                  <div className="grid grid-cols-3 gap-3">
+                    {statusList.map((s) => (
+                      <div key={s} className="glass-card-sm flex items-center gap-2 px-3 py-2.5">
+                        <StatusDot status={s} withLabel />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <ControlButton action="start" />
+                    <ControlButton action="pause" />
+                    <ControlButton action="restart" />
+                    <ControlButton action="stop" />
+                    <ControlButton action="start" loading />
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            {/* Card layers + Skeleton */}
             <div className="grid gap-6 xl:grid-cols-[0.92fr_1.08fr]">
               <section className="glass-card p-6">
                 <SectionTitle
                   icon={Activity}
-                  title="状态语义色"
-                  description="健康态保持降饱和，避免后台里出现过于刺眼的原色。"
+                  title="Skeleton 骨架屏"
+                  description="用于表格行、卡片、侧栏数据块的加载占位。"
                 />
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {statusColors.map((item) => (
-                    <StatusCard key={item.name} item={item} />
-                  ))}
+                <div className="flex flex-col gap-3">
+                  <Skeleton className="h-5 w-3/4" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-5/6" />
+                  <Skeleton className="h-4 w-2/3" />
+                  <div className="mt-2 grid grid-cols-3 gap-3">
+                    <Skeleton className="h-16" />
+                    <Skeleton className="h-16" />
+                    <Skeleton className="h-16" />
+                  </div>
                 </div>
               </section>
 
@@ -338,7 +374,7 @@ export default function CardExample() {
                 <SectionTitle
                   icon={Layers3}
                   title="卡片层级"
-                  description="同一页里通过透明度、模糊强度和阴影差异，建立主卡片、次卡片、内嵌块三层结构。"
+                  description="主卡片、次卡片、内嵌块三层结构。"
                 />
                 <div className="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
                   <div className="glass-card min-h-60 p-6">
@@ -347,17 +383,12 @@ export default function CardExample() {
                         <p className="text-xs uppercase tracking-[0.2em] text-text-subtle">
                           Main Card
                         </p>
-                        <h3 className="mt-3 text-3xl font-light text-text-primary">
-                          主卡片
-                        </h3>
+                        <h3 className="mt-3 text-3xl font-light text-text-primary">主卡片</h3>
                         <p className="mt-3 max-w-sm text-sm leading-6 text-text-body">
-                          用于顶层
-                          KPI、模型卡或重要摘要模块。透明度更高，阴影也更明显。
+                          用于顶层 KPI、模型卡或重要摘要模块。
                         </p>
                       </div>
-                      <button type="button" className="btn-primary min-w-28">
-                        Primary
-                      </button>
+                      <Button variant="primary" size="sm">Primary</Button>
                     </div>
                     <div className="mt-8 flex flex-wrap gap-3">
                       <span className="glass-chip">bg-white/60</span>
@@ -371,25 +402,19 @@ export default function CardExample() {
                       <p className="text-xs uppercase tracking-[0.2em] text-text-subtle">
                         Secondary Card
                       </p>
-                      <h3 className="mt-3 text-xl font-semibold text-text-primary">
-                        次卡片
-                      </h3>
+                      <h3 className="mt-3 text-xl font-semibold text-text-primary">次卡片</h3>
                       <p className="mt-2 text-sm leading-6 text-text-body">
                         更适合列表容器、筛选区和图表面板。
                       </p>
-                      <button type="button" className="btn-ghost mt-5 min-w-28">
-                        Ghost
-                      </button>
+                      <Button variant="ghost" size="sm" className="mt-5">Ghost</Button>
                     </div>
                     <div className="glass-inner p-5">
                       <p className="text-xs uppercase tracking-[0.2em] text-text-subtle">
                         Inner Block
                       </p>
-                      <h3 className="mt-3 text-lg font-semibold text-text-primary">
-                        内嵌块
-                      </h3>
+                      <h3 className="mt-3 text-lg font-semibold text-text-primary">内嵌块</h3>
                       <p className="mt-2 text-sm leading-6 text-text-body">
-                        用于告警摘要、轻量分组和图例区，不再叠加强阴影。
+                        用于告警摘要、轻量分组和图例区。
                       </p>
                       <div className="mt-5 flex gap-2">
                         <span className="tab-active">Active</span>

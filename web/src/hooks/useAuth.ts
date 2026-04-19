@@ -25,7 +25,7 @@ export function useAuth() {
   const navigate = useNavigate()
 
   const login = useCallback(async (payload: LoginPayload, mode: 'admin' | 'user') => {
-    const endpoint = mode === 'admin' ? '/admin/auth/login' : '/auth/login'
+    const endpoint = mode === 'admin' ? '/auth/login' : '/auth/login'
     const { data } = await client.post<{ token: string }>(endpoint, payload)
     localStorage.setItem(JWT_KEY, data.token)
     navigate('/dashboard')
