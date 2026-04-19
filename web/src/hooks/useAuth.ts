@@ -4,8 +4,8 @@ import { JWT_KEY } from '@/lib/constants'
 import client from '@/api/client'
 
 interface LoginPayload {
-  token: string
-  email?: string
+  email: string
+  password: string
 }
 
 function getToken(): string | null {
@@ -24,8 +24,9 @@ function isTokenExpired(token: string): boolean {
 export function useAuth() {
   const navigate = useNavigate()
 
-  const login = useCallback(async (payload: LoginPayload) => {
-    const { data } = await client.post<{ token: string }>('/auth/login', payload)
+  const login = useCallback(async (payload: LoginPayload, mode: 'admin' | 'user') => {
+    const endpoint = mode === 'admin' ? '/admin/auth/login' : '/auth/login'
+    const { data } = await client.post<{ token: string }>(endpoint, payload)
     localStorage.setItem(JWT_KEY, data.token)
     navigate('/dashboard')
   }, [navigate])

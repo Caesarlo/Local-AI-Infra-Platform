@@ -54,6 +54,16 @@
     #6366f1
   );
   --background-image-warn-gradient: linear-gradient(135deg, #f97316, #ef4444);
+  --background-image-button-primary-gradient: linear-gradient(
+    135deg,
+    #558abb,
+    #112d6e
+  );
+  --background-image-button-secondary-gradient: linear-gradient(
+    135deg,
+    #8e8491,
+    #1d355d
+  );
 
   /* 语义化颜色 */
   --color-text-primary: #1e2d3d;
@@ -129,7 +139,10 @@
   }
 
   .tab-active {
-    @apply bg-[#334455] text-white rounded-full px-4 py-1.5 text-sm font-medium;
+    @apply bg-[#334455] text-white rounded-full px-4 py-1.5 text-sm font-medium shadow-glass-sm;
+  }
+  .tab-active-admin {
+    @apply bg-button-primary-gradient text-white rounded-full px-4 py-1.5 text-sm font-medium shadow-glass-sm;
   }
   .tab-inactive {
     @apply text-[#7a8fa0] hover:text-[#334455] rounded-full px-4 py-1.5 text-sm font-medium transition-colors;
@@ -138,7 +151,14 @@
   .btn-primary {
     @apply bg-[#334455] hover:bg-[#1e2d3d] text-white rounded-xl px-4 py-2 text-sm font-medium transition-colors;
   }
+  .btn-gradient {
+    @apply bg-accent-gradient hover:opacity-90 active:opacity-80 text-white rounded-xl px-4 py-2 text-sm font-medium shadow-glass-sm transition-opacity;
+  }
   .btn-ghost {
-    @apply bg-white/40 hover:bg-white/60 border border-white/60 text-[#4a5c6e] rounded-xl px-4 py-2 text-sm font-medium transition-all;
+    @apply bg-white/40 hover:bg-white/60 border border-white/60 text-[#4a5c6e] rounded-xl px-4 py-2 text-sm font-medium shadow-glass-sm transition-all;
+  }
+
+  .glass-input {
+    @apply bg-white/35 backdrop-blur-sm border border-white/50 rounded-xl shadow-glass-sm text-text-body placeholder:text-text-subtle focus:outline-none focus:bg-white/50 focus:border-white/70 transition-all;
   }
 }

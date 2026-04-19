@@ -7,6 +7,10 @@ export const handlers = [
     return HttpResponse.json({ token: mockJwt })
   }),
 
+  http.post('/auth/login', () => {
+    return HttpResponse.json({ token: mockJwt })
+  }),
+
   http.get('/admin/metrics/summary', () => {
     return HttpResponse.json({
       active_keys: 128,
