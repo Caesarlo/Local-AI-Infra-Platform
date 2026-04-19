@@ -2,34 +2,34 @@
 
 /* ── Inter（英文/拉丁）── 放 public/fonts/Inter-Variable.woff2 ── */
 @font-face {
-  font-family: 'Inter';
-  src: url('/fonts/Inter-Variable.woff2') format('woff2');
+  font-family: "Inter";
+  src: url("/fonts/Inter-Variable.woff2") format("woff2");
   font-weight: 100 900;
   font-display: swap;
 }
 
 /* ── 思源黑体 SC（中文）── 放 public/fonts/SourceHanSansSC-*.woff2 ── */
 @font-face {
-  font-family: 'Source Han Sans SC';
-  src: url('/fonts/SourceHanSansSC-Light.woff2') format('woff2');
+  font-family: "Source Han Sans SC";
+  src: url("/fonts/SourceHanSansSC-Light.woff2") format("woff2");
   font-weight: 300;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Source Han Sans SC';
-  src: url('/fonts/SourceHanSansSC-Regular.woff2') format('woff2');
+  font-family: "Source Han Sans SC";
+  src: url("/fonts/SourceHanSansSC-Regular.woff2") format("woff2");
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Source Han Sans SC';
-  src: url('/fonts/SourceHanSansSC-Medium.woff2') format('woff2');
+  font-family: "Source Han Sans SC";
+  src: url("/fonts/SourceHanSansSC-Medium.woff2") format("woff2");
   font-weight: 500;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Source Han Sans SC';
-  src: url('/fonts/SourceHanSansSC-Bold.woff2') format('woff2');
+  font-family: "Source Han Sans SC";
+  src: url("/fonts/SourceHanSansSC-Bold.woff2") format("woff2");
   font-weight: 700;
   font-display: swap;
 }
@@ -37,36 +37,49 @@
 /* ── Tailwind v4 主题扩展 ── */
 @theme {
   /* 字体 */
-  --font-sans: 'Inter', 'Source Han Sans SC', system-ui, sans-serif;
+  --font-sans: "Inter", "Source Han Sans SC", system-ui, sans-serif;
 
   /* 背景渐变 */
-  --background-image-page-gradient: linear-gradient(135deg, #dce8f5 0%, #c8d8ea 40%, #d4dff0 100%);
+  --background-image-page-gradient: linear-gradient(
+    135deg,
+    #fafcff 0%,
+    #f3f7fb 32%,
+    #eaf0f6 68%,
+    #e2eaf1 100%
+  );
   --background-image-accent-gradient: linear-gradient(135deg, #6366f1, #3b82f6);
-  --background-image-accent-gradient-2: linear-gradient(135deg, #8b5cf6, #6366f1);
+  --background-image-accent-gradient-2: linear-gradient(
+    135deg,
+    #8b5cf6,
+    #6366f1
+  );
   --background-image-warn-gradient: linear-gradient(135deg, #f97316, #ef4444);
 
   /* 语义化颜色 */
-  --color-text-primary:   #1e2d3d;
+  --color-text-primary: #1e2d3d;
   --color-text-secondary: #334455;
-  --color-text-body:      #4a5c6e;
-  --color-text-muted:     #7a8fa0;
-  --color-text-subtle:    #9eb0c0;
+  --color-text-body: #4a5c6e;
+  --color-text-muted: #7a8fa0;
+  --color-text-subtle: #9eb0c0;
 
-  --color-glass-border:       rgba(255,255,255,0.75);
-  --color-glass-border-inner: rgba(255,255,255,0.5);
-  --color-glass-divider:      rgba(160,185,210,0.3);
+  --color-glass-border: rgba(255, 255, 255, 0.75);
+  --color-glass-border-inner: rgba(255, 255, 255, 0.5);
+  --color-glass-divider: rgba(160, 185, 210, 0.3);
 
-  --color-status-healthy:  #34d399;
+  --color-status-healthy: #34d399;
   --color-status-degraded: #fbbf24;
-  --color-status-offline:  #94a3b8;
+  --color-status-offline: #94a3b8;
   --color-status-starting: #60a5fa;
-  --color-status-paused:   #fb923c;
-  --color-status-error:    #f87171;
+  --color-status-paused: #fb923c;
+  --color-status-error: #f87171;
 
   /* 阴影 */
-  --shadow-glass:       0 8px 32px rgba(90,130,190,0.14), 0 2px 8px rgba(90,130,190,0.08);
-  --shadow-glass-sm:    0 4px 16px rgba(90,130,190,0.10), 0 1px 4px rgba(90,130,190,0.06);
-  --shadow-glass-hover: 0 12px 40px rgba(90,130,190,0.20), 0 4px 12px rgba(90,130,190,0.12);
+  --shadow-glass:
+    0 8px 32px rgba(90, 130, 190, 0.14), 0 2px 8px rgba(90, 130, 190, 0.08);
+  --shadow-glass-sm:
+    0 4px 16px rgba(90, 130, 190, 0.1), 0 1px 4px rgba(90, 130, 190, 0.06);
+  --shadow-glass-hover:
+    0 12px 40px rgba(90, 130, 190, 0.2), 0 4px 12px rgba(90, 130, 190, 0.12);
 
   /* 圆角 */
   --radius-4xl: 2rem;
@@ -86,6 +99,33 @@
   }
   .glass-inner {
     @apply bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl;
+  }
+  .glass-round-icon {
+    @apply flex items-center justify-center rounded-full bg-white/20 backdrop-blur-sm border border-white/30;
+  }
+  .glass-icon-badge {
+    @apply flex h-11 w-11 items-center justify-center bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl;
+  }
+  .glass-pill {
+    @apply inline-flex items-center gap-2 rounded-full bg-white/45 px-4 py-2 text-sm font-medium text-text-secondary backdrop-blur-md transition-colors hover:bg-white/60;
+  }
+  .glass-kicker {
+    @apply inline-flex items-center gap-2 rounded-full bg-white/35 px-4 py-2 text-xs font-semibold tracking-[0.18em] text-text-secondary uppercase backdrop-blur-md;
+  }
+  .glass-status-pill {
+    @apply flex items-center gap-2 rounded-full bg-white/45 px-3 py-2 text-sm font-medium text-text-secondary backdrop-blur-md;
+  }
+  .glass-swatch {
+    @apply mb-4 h-16 rounded-2xl border border-white/70;
+  }
+  .glass-chip {
+    @apply rounded-full bg-white/55 px-4 py-2 text-sm font-medium text-text-secondary;
+  }
+  .glass-spotlight {
+    @apply absolute rounded-full blur-3xl;
+  }
+  .glass-backplate {
+    @apply hidden rounded-[2rem] border border-white/70 bg-white/20 backdrop-blur-lg lg:block;
   }
 
   .tab-active {
