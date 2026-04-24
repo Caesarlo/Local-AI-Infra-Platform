@@ -173,4 +173,46 @@ export const handlers = [
       },
     ])
   }),
+
+  // ── Models mutations ────────────────────────────────────────────────────────
+
+  http.post('/admin/models', async ({ request }) => {
+    const body = await request.json() as Record<string, unknown>
+    return HttpResponse.json(
+      {
+        id: `model-${Date.now()}`,
+        status: 'configured',
+        active_requests: 0,
+        ...body,
+      },
+      { status: 201 },
+    )
+  }),
+
+  http.patch('/admin/models/:id', async ({ params, request }) => {
+    const body = await request.json() as Record<string, unknown>
+    return HttpResponse.json({ id: params.id, ...body })
+  }),
+
+  http.delete('/admin/models/:id', () => {
+    return new HttpResponse(null, { status: 204 })
+  }),
+
+  // ── Instance control ────────────────────────────────────────────────────────
+
+  http.post('/admin/instances/:id/pause', ({ params }) => {
+    return HttpResponse.json({ id: params.id, status: 'paused' })
+  }),
+
+  http.post('/admin/instances/:id/start', ({ params }) => {
+    return HttpResponse.json({ id: params.id, status: 'starting' })
+  }),
+
+  http.post('/admin/instances/:id/restart', ({ params }) => {
+    return HttpResponse.json({ id: params.id, status: 'starting' })
+  }),
+
+  http.post('/admin/instances/:id/stop', ({ params }) => {
+    return HttpResponse.json({ id: params.id, status: 'offline' })
+  }),
 ]
