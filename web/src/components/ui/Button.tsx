@@ -44,9 +44,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled || loading}
         className={cn(
-          "relative inline-flex items-center justify-center font-medium transition-all",
+          "relative inline-flex cursor-pointer items-center justify-center font-medium transition-all duration-150",
+          "hover:-translate-y-0.5 hover:shadow-glass active:translate-y-0 active:shadow-glass-sm",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#334455]/40",
-          "disabled:opacity-50 disabled:cursor-not-allowed",
+          "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-glass-sm",
           variantMap[variant],
           sizeMap[size],
           className,
