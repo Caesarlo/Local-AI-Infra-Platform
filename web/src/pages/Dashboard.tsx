@@ -49,27 +49,39 @@ function StatCard({
   title,
   value,
   description,
+  icon: Icon,
   isLoading,
   isError,
 }: {
   title: string;
   value: string;
   description: string;
+  icon: typeof KeyRound;
   isLoading: boolean;
   isError: boolean;
 }) {
   return (
-    <section className="glass-card min-h-[156px] p-5">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">{title}</p>
+    <section className="glass-card min-h-[176px] p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_48px_rgba(90,130,190,0.24),0_8px_18px_rgba(90,130,190,0.14)] hover:bg-white/72">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="text-xs uppercase tracking-[0.2em] text-text-subtle">{title}</p>
+        </div>
+        <div className="glass-round-icon h-10 w-10 shrink-0">
+          <Icon className="h-4 w-4 text-text-secondary" />
+        </div>
+      </div>
       {isLoading ? (
-        <div className="mt-5 space-y-3">
+        <div className="mt-6 space-y-3">
           <Skeleton className="h-10 w-28 rounded-2xl" />
           <Skeleton className="h-4 w-40" />
         </div>
       ) : (
         <>
-          <p className="mt-5 text-4xl font-light tracking-tight text-text-primary">{value}</p>
-          <p className="mt-3 text-sm text-text-muted">{isError ? "指标暂时不可用" : description}</p>
+          <p className="mt-4 text-4xl font-light tracking-tight text-text-primary sm:text-[2.6rem]">{value}</p>
+          <div className="mt-5 h-1.5 w-14 rounded-full bg-accent-gradient" />
+          <p className="mt-4 max-w-[24ch] text-sm leading-6 text-text-body">
+            {isError ? "指标暂时不可用" : description}
+          </p>
         </>
       )}
     </section>
@@ -132,7 +144,7 @@ function QuickAction({
   return (
     <Link
       to={to}
-      className="glass-card-sm flex items-center justify-between gap-3 p-4 transition-all hover:bg-white/55"
+      className="glass-card-sm flex items-center justify-between gap-3 p-4 transition-all duration-300 hover:-translate-y-1 hover:bg-white/55 hover:shadow-[0_14px_32px_rgba(90,130,190,0.2),0_6px_14px_rgba(90,130,190,0.1)]"
     >
       <div className="flex items-start gap-3">
         <div className="glass-round-icon h-10 w-10 shrink-0">
@@ -188,6 +200,7 @@ export default function Dashboard() {
           title="活跃 API Keys"
           value={String(getValueOrFallback(summary?.active_keys))}
           description={getKeysDescription(summary, summaryQuery.isError)}
+          icon={KeyRound}
           isLoading={summaryQuery.isLoading}
           isError={summaryQuery.isError}
         />
@@ -195,6 +208,7 @@ export default function Dashboard() {
           title="活跃并发"
           value={formatConcurrency(summary)}
           description={getConcurrencyDescription(summary, summaryQuery.isError)}
+          icon={Boxes}
           isLoading={summaryQuery.isLoading}
           isError={summaryQuery.isError}
         />
@@ -202,6 +216,7 @@ export default function Dashboard() {
           title="P99 延迟"
           value={formatLatency(summary?.p99_latency_ms)}
           description={getLatencyDescription(summary, summaryQuery.isError)}
+          icon={RefreshCw}
           isLoading={summaryQuery.isLoading}
           isError={summaryQuery.isError}
         />
@@ -209,6 +224,7 @@ export default function Dashboard() {
           title="5xx 错误率"
           value={formatPercentage(summary?.error_rate_5xx_pct)}
           description={getErrorRateDescription(summary, summaryQuery.isError)}
+          icon={AlertTriangle}
           isLoading={summaryQuery.isLoading}
           isError={summaryQuery.isError}
         />
@@ -216,6 +232,7 @@ export default function Dashboard() {
           title="容量压力"
           value={formatPercentage(summary?.concurrency_utilization_pct)}
           description={getCapacityDescription(summary, summaryQuery.isError)}
+          icon={TriangleAlert}
           isLoading={summaryQuery.isLoading}
           isError={summaryQuery.isError}
         />
@@ -223,31 +240,6 @@ export default function Dashboard() {
 
       <section className="grid gap-5 xl:grid-cols-[minmax(0,1.7fr)_minmax(320px,1fr)]">
         <div className="space-y-5">
-          <section className="glass-card p-5">
-            <div className="flex items-start gap-3">
-              <div className="glass-round-icon h-10 w-10 shrink-0">
-                <AlertTriangle className="h-4 w-4 text-amber-600" />
-              </div>
-              <div>
-                <h2 className="text-base font-semibold text-text-primary">最近 5 分钟异常摘要</h2>
-                {summaryQuery.isLoading ? (
-                  <div className="mt-3 space-y-2">
-                    <Skeleton className="h-4 w-48" />
-                    <Skeleton className="h-4 w-full" />
-                  </div>
-                ) : summaryQuery.isError ? (
-                  <div className="mt-3">
-                    <SectionError message="异常摘要暂时不可用，但其余指标仍会继续刷新。" />
-                  </div>
-                ) : (
-                  <p className="mt-2 text-sm leading-6 text-text-body">
-                    {summary?.anomaly_summary ?? "近 5 分钟未发现需要立即处理的异常峰值。"}
-                  </p>
-                )}
-              </div>
-            </div>
-          </section>
-
           <section className="glass-card p-5">
             <div className="mb-4 flex items-start justify-between gap-3">
               <div>
@@ -275,41 +267,68 @@ export default function Dashboard() {
             )}
           </section>
 
-          {alertsQuery.isSuccess && alertsQuery.data.length > 0 ? (
+          <div className="grid gap-5 xl:grid-cols-2">
             <section className="glass-card p-5">
-              <div>
-                <h2 className="text-base font-semibold text-text-primary">待处理告警</h2>
-                <p className="mt-1 text-sm text-text-muted">仅展示当前需要管理员关注的 warning / error 事件。</p>
-              </div>
-
-              <div className="mt-4 space-y-3">
-                {alertsQuery.data.map((alert) => {
-                  const isError = alert.level === "error";
-                  const Icon = isError ? AlertTriangle : TriangleAlert;
-
-                  return (
-                    <div
-                      key={alert.id}
-                      className={[
-                        "rounded-2xl border px-4 py-3",
-                        isError
-                          ? "border-red-200/90 bg-red-50/70 text-red-700"
-                          : "border-amber-200/90 bg-amber-50/70 text-amber-700",
-                      ].join(" ")}
-                    >
-                      <div className="flex items-start gap-3">
-                        <Icon className="mt-0.5 h-4 w-4 shrink-0" />
-                        <div>
-                          <p className="text-xs font-semibold uppercase tracking-[0.18em] opacity-80">{alert.level}</p>
-                          <p className="mt-1 text-sm leading-6">{alert.message}</p>
-                        </div>
-                      </div>
+              <div className="flex items-start gap-3">
+                <div className="glass-round-icon h-10 w-10 shrink-0">
+                  <AlertTriangle className="h-4 w-4 text-amber-600" />
+                </div>
+                <div>
+                  <h2 className="text-base font-semibold text-text-primary">最近 5 分钟异常摘要</h2>
+                  {summaryQuery.isLoading ? (
+                    <div className="mt-3 space-y-2">
+                      <Skeleton className="h-4 w-48" />
+                      <Skeleton className="h-4 w-full" />
                     </div>
-                  );
-                })}
+                  ) : summaryQuery.isError ? (
+                    <div className="mt-3">
+                      <SectionError message="异常摘要暂时不可用，但其余指标仍会继续刷新。" />
+                    </div>
+                  ) : (
+                    <p className="mt-2 text-sm leading-6 text-text-body">
+                      {summary?.anomaly_summary ?? "近 5 分钟未发现需要立即处理的异常峰值。"}
+                    </p>
+                  )}
+                </div>
               </div>
             </section>
-          ) : null}
+
+            {alertsQuery.isSuccess && alertsQuery.data.length > 0 ? (
+              <section className="glass-card p-5">
+                <div>
+                  <h2 className="text-base font-semibold text-text-primary">待处理告警</h2>
+                  <p className="mt-1 text-sm text-text-muted">仅展示当前需要管理员关注的 warning / error 事件。</p>
+                </div>
+
+                <div className="mt-4 space-y-3">
+                  {alertsQuery.data.map((alert) => {
+                    const isError = alert.level === "error";
+                    const Icon = isError ? AlertTriangle : TriangleAlert;
+
+                    return (
+                      <div
+                        key={alert.id}
+                        className={[
+                          "rounded-2xl border px-4 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(90,130,190,0.14),0_4px_10px_rgba(90,130,190,0.08)]",
+                          isError
+                            ? "border-transparent bg-error-gradient text-white shadow-[0_10px_24px_rgba(239,68,68,0.22),0_4px_12px_rgba(220,38,38,0.16)] hover:bg-error-gradient hover:shadow-[0_14px_30px_rgba(239,68,68,0.28),0_6px_14px_rgba(220,38,38,0.2)]"
+                            : "border-transparent bg-warning-gradient text-white shadow-[0_10px_24px_rgba(245,158,11,0.2),0_4px_12px_rgba(249,115,22,0.14)] hover:bg-warning-gradient hover:shadow-[0_14px_30px_rgba(245,158,11,0.26),0_6px_14px_rgba(249,115,22,0.18)]",
+                        ].join(" ")}
+                      >
+                        <div className="flex items-start gap-3">
+                          <Icon className="mt-0.5 h-4 w-4 shrink-0" />
+                          <div>
+                            <p className="text-xs font-semibold uppercase tracking-[0.18em] opacity-80">{alert.level}</p>
+                            <p className="mt-1 text-sm leading-6">{alert.message}</p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            ) : null}
+          </div>
         </div>
 
         <div className="space-y-5">
@@ -359,24 +378,24 @@ export default function Dashboard() {
               </div>
             ) : primaryModel ? (
               <div className="mt-5 space-y-4">
-                <div className="rounded-2xl border border-white/60 bg-white/35 p-4">
+                <div className="rounded-2xl border border-white/60 bg-white/35 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/45 hover:shadow-[0_12px_28px_rgba(90,130,190,0.16),0_4px_10px_rgba(90,130,190,0.08)]">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">主聊天模型</p>
                   <p className="mt-2 text-xl font-semibold text-text-primary">{primaryModel.display_name || primaryModel.name}</p>
                   <p className="mt-1 text-sm text-text-body">{primaryModel.quantization.toUpperCase()} / {primaryModel.dtype}</p>
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="glass-card-sm p-4">
+                  <div className="glass-card-sm p-4 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/50 hover:shadow-[0_12px_28px_rgba(90,130,190,0.16),0_4px_10px_rgba(90,130,190,0.08)]">
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">部署形态</p>
                     <p className="mt-2 text-sm text-text-body">TP {primaryModel.tensor_parallel} / 最大并发 {primaryModel.max_concurrency}</p>
                   </div>
-                  <div className="glass-card-sm p-4">
+                  <div className="glass-card-sm p-4 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/50 hover:shadow-[0_12px_28px_rgba(90,130,190,0.16),0_4px_10px_rgba(90,130,190,0.08)]">
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">运行状态</p>
                     <p className="mt-2 text-sm capitalize text-text-body">{primaryModel.status}</p>
                   </div>
                 </div>
 
-                <div className="glass-card-sm p-4">
+                <div className="glass-card-sm p-4 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/50 hover:shadow-[0_12px_28px_rgba(90,130,190,0.16),0_4px_10px_rgba(90,130,190,0.08)]">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">部署组件摘要</p>
                   <p className="mt-2 text-sm text-text-body">
                     {primaryModel.deployment_summary ?? "Nginx + FastAPI + 推理服务，当前使用 mock 摘要。"}

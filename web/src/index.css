@@ -53,6 +53,8 @@
     #8b5cf6,
     #6366f1
   );
+  --background-image-warning-gradient: linear-gradient(135deg, #f59e0b, #f97316);
+  --background-image-error-gradient: linear-gradient(135deg, #ef4444, #dc2626);
   --background-image-warn-gradient: linear-gradient(135deg, #f97316, #ef4444);
   --background-image-button-primary-gradient: linear-gradient(
     135deg,
@@ -100,12 +102,51 @@
 }
 
 /* ── 组件工具类 ── */
+@layer base {
+  html,
+  body {
+    @apply font-sans;
+  }
+}
+
 @layer components {
   .glass-card {
     @apply bg-white/60 backdrop-blur-xl border border-white/75 rounded-3xl shadow-glass;
   }
   .glass-card-sm {
     @apply bg-white/40 backdrop-blur-md border border-white/50 rounded-2xl shadow-glass-sm;
+  }
+  .scrollbar-glass {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(94, 122, 148, 0.3) transparent;
+  }
+  .scrollbar-glass::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  .scrollbar-glass::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  .scrollbar-glass::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-glass::-webkit-scrollbar-thumb {
+    background: rgba(94, 122, 148, 0.24);
+    border: 2px solid transparent;
+    border-radius: 9999px;
+    background-clip: padding-box;
+    transition: background-color 160ms ease;
+  }
+  .scrollbar-glass:hover {
+    scrollbar-color: rgba(94, 122, 148, 0.52) transparent;
+  }
+  .scrollbar-glass:hover::-webkit-scrollbar-thumb,
+  .scrollbar-glass::-webkit-scrollbar-thumb:hover {
+    background: rgba(74, 98, 122, 0.55);
+    border: 2px solid transparent;
+    background-clip: padding-box;
   }
   .glass-inner {
     @apply bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl;

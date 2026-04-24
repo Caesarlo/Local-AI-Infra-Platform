@@ -19,8 +19,10 @@ export function Shell() {
 
         <div className="flex min-h-0 flex-1 flex-col gap-2.5">
           <Header actions={actions} />
-          <main className="glass-card min-h-0 flex-1 overflow-y-auto p-5">
-            <Outlet context={{ setActions } satisfies ShellContextValue} />
+          <main className="glass-card min-h-0 flex-1 overflow-hidden">
+            <div className="scrollbar-glass h-full overflow-y-auto p-5 pr-3">
+              <Outlet context={{ setActions } satisfies ShellContextValue} />
+            </div>
           </main>
         </div>
       </div>

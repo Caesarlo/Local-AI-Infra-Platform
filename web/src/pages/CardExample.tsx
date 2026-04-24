@@ -1,11 +1,11 @@
-import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ControlButton } from "@/components/ui/ControlButton";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { Spinner } from "@/components/ui/Spinner";
-import { StatusDot } from "@/components/ui/StatusDot";
 import type { Status } from "@/components/ui/StatusDot";
+import { StatusDot } from "@/components/ui/StatusDot";
+import { cn } from "@/lib/utils";
 import {
   Activity,
   ArrowLeft,
@@ -106,13 +106,26 @@ const gradients: GradientToken[] = [
   },
   {
     name: "警告渐变",
-    token: "bg-warn-gradient",
+    token: "bg-warning-gradient",
     value: "#f97316 → #ef4444",
-    className: "bg-warn-gradient",
+    className: "bg-warning-gradient",
+  },
+  {
+    name: "错误渐变",
+    token: "bg-error-gradient",
+    value: "#ef4444 → #dc2626",
+    className: "bg-error-gradient",
   },
 ];
 
-const statusList: Status[] = ["healthy", "degraded", "offline", "starting", "paused", "error"];
+const statusList: Status[] = [
+  "healthy",
+  "degraded",
+  "offline",
+  "starting",
+  "paused",
+  "error",
+];
 
 function SectionTitle({
   icon: Icon,
@@ -207,7 +220,9 @@ export default function CardExample() {
                       <p className="text-xs uppercase tracking-[0.2em] text-text-subtle">
                         Traffic
                       </p>
-                      <p className="mt-2 text-3xl font-light text-text-primary">2,589</p>
+                      <p className="mt-2 text-3xl font-light text-text-primary">
+                        2,589
+                      </p>
                     </div>
                     <div className="glass-round-icon h-10 w-10">
                       <ChartColumnBig className="h-4 w-4 text-text-secondary" />
@@ -216,7 +231,7 @@ export default function CardExample() {
                   <div className="space-y-2">
                     <div className="h-3 w-28 rounded-full bg-accent-gradient" />
                     <div className="h-3 w-20 rounded-full bg-accent-gradient-2" />
-                    <div className="h-3 w-16 rounded-full bg-warn-gradient" />
+                    <div className="h-3 w-16 rounded-full bg-warning-gradient" />
                   </div>
                 </div>
                 <div className="glass-card absolute right-0 top-14 w-full max-w-sm p-6 lg:right-6 lg:top-16 lg:rotate-[5deg]">
@@ -228,7 +243,9 @@ export default function CardExample() {
                       <h2 className="mt-3 text-2xl font-light text-text-primary">
                         Traffic Overview
                       </h2>
-                      <p className="mt-2 text-sm text-text-muted">In last 7 days</p>
+                      <p className="mt-2 text-sm text-text-muted">
+                        In last 7 days
+                      </p>
                     </div>
                     <div className="glass-round-icon h-12 w-12">
                       <Layers3 className="h-5 w-5 text-text-secondary" />
@@ -239,14 +256,18 @@ export default function CardExample() {
                       <p className="text-xs uppercase tracking-[0.18em] text-text-subtle">
                         Conversion
                       </p>
-                      <p className="mt-3 text-2xl font-light text-text-primary">40.18%</p>
-                      <div className="mt-4 h-2 rounded-full bg-warn-gradient" />
+                      <p className="mt-3 text-2xl font-light text-text-primary">
+                        40.18%
+                      </p>
+                      <div className="mt-4 h-2 rounded-full bg-warning-gradient" />
                     </div>
                     <div className="glass-card-sm p-4">
                       <p className="text-xs uppercase tracking-[0.18em] text-text-subtle">
                         Engagement
                       </p>
-                      <p className="mt-3 text-2xl font-light text-text-primary">439</p>
+                      <p className="mt-3 text-2xl font-light text-text-primary">
+                        439
+                      </p>
                       <div className="mt-4 h-2 rounded-full bg-accent-gradient-2" />
                     </div>
                   </div>
@@ -302,13 +323,23 @@ export default function CardExample() {
                     <Button variant="danger">Danger</Button>
                   </div>
                   <div className="flex flex-wrap items-center gap-3">
-                    <Button variant="primary" size="sm">Primary sm</Button>
-                    <Button variant="ghost" size="sm">Ghost sm</Button>
-                    <Button variant="danger" size="sm">Danger sm</Button>
+                    <Button variant="primary" size="sm">
+                      Primary sm
+                    </Button>
+                    <Button variant="ghost" size="sm">
+                      Ghost sm
+                    </Button>
+                    <Button variant="danger" size="sm">
+                      Danger sm
+                    </Button>
                   </div>
                   <div className="flex flex-wrap items-center gap-3">
-                    <Button variant="primary" loading>保存中</Button>
-                    <Button variant="ghost" disabled>已禁用</Button>
+                    <Button variant="primary" loading>
+                      保存中
+                    </Button>
+                    <Button variant="ghost" disabled>
+                      已禁用
+                    </Button>
                     <Spinner size="sm" className="text-text-muted" />
                     <Spinner size="md" className="text-text-secondary" />
                     <Spinner size="lg" className="text-[#334455]" />
@@ -333,7 +364,10 @@ export default function CardExample() {
                   </div>
                   <div className="grid grid-cols-3 gap-3">
                     {statusList.map((s) => (
-                      <div key={s} className="glass-card-sm flex items-center gap-2 px-3 py-2.5">
+                      <div
+                        key={s}
+                        className="glass-card-sm flex items-center gap-2 px-3 py-2.5"
+                      >
                         <StatusDot status={s} withLabel />
                       </div>
                     ))}
@@ -383,12 +417,16 @@ export default function CardExample() {
                         <p className="text-xs uppercase tracking-[0.2em] text-text-subtle">
                           Main Card
                         </p>
-                        <h3 className="mt-3 text-3xl font-light text-text-primary">主卡片</h3>
+                        <h3 className="mt-3 text-3xl font-bold text-text-primary">
+                          主卡片
+                        </h3>
                         <p className="mt-3 max-w-sm text-sm leading-6 text-text-body">
                           用于顶层 KPI、模型卡或重要摘要模块。
                         </p>
                       </div>
-                      <Button variant="primary" size="sm">Primary</Button>
+                      <Button variant="primary" size="sm">
+                        Primary
+                      </Button>
                     </div>
                     <div className="mt-8 flex flex-wrap gap-3">
                       <span className="glass-chip">bg-white/60</span>
@@ -402,17 +440,23 @@ export default function CardExample() {
                       <p className="text-xs uppercase tracking-[0.2em] text-text-subtle">
                         Secondary Card
                       </p>
-                      <h3 className="mt-3 text-xl font-semibold text-text-primary">次卡片</h3>
+                      <h3 className="mt-3 text-xl font-semibold text-text-primary">
+                        次卡片
+                      </h3>
                       <p className="mt-2 text-sm leading-6 text-text-body">
                         更适合列表容器、筛选区和图表面板。
                       </p>
-                      <Button variant="ghost" size="sm" className="mt-5">Ghost</Button>
+                      <Button variant="ghost" size="sm" className="mt-5">
+                        Ghost
+                      </Button>
                     </div>
                     <div className="glass-inner p-5">
                       <p className="text-xs uppercase tracking-[0.2em] text-text-subtle">
                         Inner Block
                       </p>
-                      <h3 className="mt-3 text-lg font-semibold text-text-primary">内嵌块</h3>
+                      <h3 className="mt-3 text-lg font-semibold text-text-primary">
+                        内嵌块
+                      </h3>
                       <p className="mt-2 text-sm leading-6 text-text-body">
                         用于告警摘要、轻量分组和图例区。
                       </p>
