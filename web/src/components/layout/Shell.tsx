@@ -13,7 +13,7 @@ export function Shell() {
   return (
     <div className="h-screen overflow-hidden bg-page-gradient">
       <div className="flex h-full gap-2.5 p-3">
-        <aside className="w-[280px] shrink-0">
+        <aside className="w-70 shrink-0">
           <NodeMonitor />
         </aside>
 

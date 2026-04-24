@@ -172,7 +172,7 @@ function ModelMoreMenu({ instance, isRestarting, onRestart, onStop, onDelete }: 
         <DropdownMenu.Content
           align="end"
           sideOffset={4}
-          className="z-50 min-w-[148px] glass-card-sm p-1.5 shadow-glass"
+          className="z-50 min-w-37 glass-card-sm p-1.5 shadow-glass"
         >
           {instance && (
             <>
@@ -549,7 +549,9 @@ export default function Models() {
         description="此操作不可恢复，相关实例将被停止并移除。"
         confirmText="确认删除"
         loading={deleteMutation.isPending}
-        onConfirm={() => deleteTarget && deleteMutation.mutate(deleteTarget.id)}
+        onConfirm={() => {
+          if (deleteTarget) deleteMutation.mutate(deleteTarget.id)
+        }}
       />
 
       {/* Confirm: force stop instance */}
@@ -560,7 +562,9 @@ export default function Models() {
         description="vLLM 进程将被终止，GPU 显存释放。下次启动需要重新加载模型，耗时约数分钟。"
         confirmText="确认停止"
         loading={stopConfirmMutation.isPending}
-        onConfirm={() => stopTarget && stopConfirmMutation.mutate(stopTarget.id)}
+        onConfirm={() => {
+          if (stopTarget) stopConfirmMutation.mutate(stopTarget.id)
+        }}
       />
     </div>
   )

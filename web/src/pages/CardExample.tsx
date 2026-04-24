@@ -212,7 +212,7 @@ export default function CardExample() {
                 </p>
               </div>
 
-              <div className="relative min-h-[260px] flex-1">
+              <div className="relative min-h-65 flex-1">
                 <div className="glass-backplate absolute left-0 top-10 h-52 w-52" />
                 <div className="glass-card absolute left-8 top-0 hidden w-64 -rotate-6 p-5 lg:block">
                   <div className="mb-6 flex items-start justify-between">
@@ -342,7 +342,7 @@ export default function CardExample() {
                     </Button>
                     <Spinner size="sm" className="text-text-muted" />
                     <Spinner size="md" className="text-text-secondary" />
-                    <Spinner size="lg" className="text-[#334455]" />
+                    <Spinner size="lg" className="text-text-secondary" />
                   </div>
                 </div>
               </section>

@@ -1,13 +1,26 @@
 import { getAlerts } from "@/api/alerts";
-import { getMetricsSummary, getMetricsTimeseries, type MetricsSummaryResponse } from "@/api/metrics";
 import apiClient from "@/api/client";
+import {
+  getMetricsSummary,
+  getMetricsTimeseries,
+  type MetricsSummaryResponse,
+} from "@/api/metrics";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
-import { POLL_INTERVALS } from "@/lib/constants";
 import { useShellActions } from "@/hooks/useShellActions";
+import { POLL_INTERVALS } from "@/lib/constants";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { AlertTriangle, ArrowUpRight, Boxes, KeyRound, RefreshCw, ScrollText, ServerCrash, TriangleAlert } from "lucide-react";
+import {
+  AlertTriangle,
+  ArrowUpRight,
+  Boxes,
+  KeyRound,
+  RefreshCw,
+  ScrollText,
+  ServerCrash,
+  TriangleAlert,
+} from "lucide-react";
 import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 
@@ -64,10 +77,12 @@ function StatCard({
     <section className="glass-card min-h-[176px] p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_48px_rgba(90,130,190,0.24),0_8px_18px_rgba(90,130,190,0.14)] hover:bg-white/72">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-text-subtle">{title}</p>
+          <p className="text-sm uppercase tracking-[0.2em] text-text-subtle">
+            {title}
+          </p>
         </div>
         <div className="glass-round-icon h-10 w-10 shrink-0">
-          <Icon className="h-4 w-4 text-text-secondary" />
+          <Icon className="h-8 w-8 text-text-secondary" />
         </div>
       </div>
       {isLoading ? (
@@ -77,7 +92,9 @@ function StatCard({
         </div>
       ) : (
         <>
-          <p className="mt-4 text-4xl font-light tracking-tight text-text-primary sm:text-[2.6rem]">{value}</p>
+          <p className="mt-4 text-4xl font-medium tracking-tight text-text-primary sm:text-[2.6rem]">
+            {value}
+          </p>
           <div className="mt-5 h-1.5 w-14 rounded-full bg-accent-gradient" />
           <p className="mt-4 max-w-[24ch] text-sm leading-6 text-text-body">
             {isError ? "指标暂时不可用" : description}
@@ -112,7 +129,9 @@ function DashboardActions() {
         leftIcon={<RefreshCw className="h-3.5 w-3.5" />}
         onClick={() => {
           void queryClient.invalidateQueries({ queryKey: ["dashboard"] });
-          void queryClient.invalidateQueries({ queryKey: ["dashboard-models"] });
+          void queryClient.invalidateQueries({
+            queryKey: ["dashboard-models"],
+          });
         }}
       >
         刷新
@@ -243,8 +262,12 @@ export default function Dashboard() {
           <section className="glass-card p-5">
             <div className="mb-4 flex items-start justify-between gap-3">
               <div>
-                <h2 className="text-base font-semibold text-text-primary">请求趋势</h2>
-                <p className="mt-1 text-sm text-text-muted">近 1 小时 QPS 变化，用于快速判断流量是否稳定。</p>
+                <h2 className="text-base font-semibold text-text-primary">
+                  请求趋势
+                </h2>
+                <p className="mt-1 text-sm text-text-muted">
+                  近 1 小时 QPS 变化，用于快速判断流量是否稳定。
+                </p>
               </div>
             </div>
 
@@ -259,11 +282,15 @@ export default function Dashboard() {
                   lines={[{ key: "qps", label: "QPS", color: "#4f46e5" }]}
                   xKey="timestamp"
                   formatX={(value) => format(new Date(String(value)), "HH:mm")}
-                  formatTooltipValue={(value) => `${Number(value).toFixed(1)} req/s`}
+                  formatTooltipValue={(value) =>
+                    `${Number(value).toFixed(1)} req/s`
+                  }
                 />
               </Suspense>
             ) : (
-              <p className="text-sm text-text-muted">当前时间范围内暂无请求数据。</p>
+              <p className="text-sm text-text-muted">
+                当前时间范围内暂无请求数据。
+              </p>
             )}
           </section>
 
@@ -274,7 +301,9 @@ export default function Dashboard() {
                   <AlertTriangle className="h-4 w-4 text-amber-600" />
                 </div>
                 <div>
-                  <h2 className="text-base font-semibold text-text-primary">最近 5 分钟异常摘要</h2>
+                  <h2 className="text-base font-semibold text-text-primary">
+                    最近 5 分钟异常摘要
+                  </h2>
                   {summaryQuery.isLoading ? (
                     <div className="mt-3 space-y-2">
                       <Skeleton className="h-4 w-48" />
@@ -286,7 +315,8 @@ export default function Dashboard() {
                     </div>
                   ) : (
                     <p className="mt-2 text-sm leading-6 text-text-body">
-                      {summary?.anomaly_summary ?? "近 5 分钟未发现需要立即处理的异常峰值。"}
+                      {summary?.anomaly_summary ??
+                        "近 5 分钟未发现需要立即处理的异常峰值。"}
                     </p>
                   )}
                 </div>
@@ -296,8 +326,12 @@ export default function Dashboard() {
             {alertsQuery.isSuccess && alertsQuery.data.length > 0 ? (
               <section className="glass-card p-5">
                 <div>
-                  <h2 className="text-base font-semibold text-text-primary">待处理告警</h2>
-                  <p className="mt-1 text-sm text-text-muted">仅展示当前需要管理员关注的 warning / error 事件。</p>
+                  <h2 className="text-base font-semibold text-text-primary">
+                    待处理告警
+                  </h2>
+                  <p className="mt-1 text-sm text-text-muted">
+                    仅展示当前需要管理员关注的 warning / error 事件。
+                  </p>
                 </div>
 
                 <div className="mt-4 space-y-3">
@@ -318,8 +352,12 @@ export default function Dashboard() {
                         <div className="flex items-start gap-3">
                           <Icon className="mt-0.5 h-4 w-4 shrink-0" />
                           <div>
-                            <p className="text-xs font-semibold uppercase tracking-[0.18em] opacity-80">{alert.level}</p>
-                            <p className="mt-1 text-sm leading-6">{alert.message}</p>
+                            <p className="text-xs font-semibold uppercase tracking-[0.18em] opacity-80">
+                              {alert.level}
+                            </p>
+                            <p className="mt-1 text-sm leading-6">
+                              {alert.message}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -334,8 +372,9 @@ export default function Dashboard() {
         <div className="space-y-5">
           <section className="glass-card p-5">
             <div>
-              <h2 className="text-base font-semibold text-text-primary">快捷动作</h2>
-              <p className="mt-1 text-sm text-text-muted">在发现异常后，直接跳到最常见的排查与管理页面。</p>
+              <h2 className="text-base font-semibold text-text-primary">
+                快捷动作
+              </h2>
             </div>
 
             <div className="mt-4 space-y-3">
@@ -362,8 +401,9 @@ export default function Dashboard() {
 
           <section className="glass-card p-5">
             <div>
-              <h2 className="text-base font-semibold text-text-primary">平台摘要</h2>
-              <p className="mt-1 text-sm text-text-muted">聚焦当前主聊天模型和部署容量，方便登录后快速确认平台状态。</p>
+              <h2 className="text-base font-semibold text-text-primary">
+                平台摘要
+              </h2>
             </div>
 
             {modelsQuery.isLoading ? (
@@ -379,37 +419,50 @@ export default function Dashboard() {
             ) : primaryModel ? (
               <div className="mt-5 space-y-4">
                 <div className="rounded-2xl border border-white/60 bg-white/35 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/45 hover:shadow-[0_12px_28px_rgba(90,130,190,0.16),0_4px_10px_rgba(90,130,190,0.08)]">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">主聊天模型</p>
-                  <p className="mt-2 text-xl font-semibold text-text-primary">{primaryModel.display_name || primaryModel.name}</p>
-                  <p className="mt-1 text-sm text-text-body">{primaryModel.quantization.toUpperCase()} / {primaryModel.dtype}</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">
+                    主聊天模型
+                  </p>
+                  <p className="mt-2 text-xl font-semibold text-text-primary">
+                    {primaryModel.display_name || primaryModel.name}
+                  </p>
+                  <p className="mt-1 text-sm text-text-body">
+                    {primaryModel.quantization.toUpperCase()} /{" "}
+                    {primaryModel.dtype}
+                  </p>
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div className="glass-card-sm p-4 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/50 hover:shadow-[0_12px_28px_rgba(90,130,190,0.16),0_4px_10px_rgba(90,130,190,0.08)]">
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">部署形态</p>
-                    <p className="mt-2 text-sm text-text-body">TP {primaryModel.tensor_parallel} / 最大并发 {primaryModel.max_concurrency}</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">
+                      部署形态
+                    </p>
+                    <p className="mt-2 text-sm text-text-body">
+                      TP {primaryModel.tensor_parallel} / 最大并发{" "}
+                      {primaryModel.max_concurrency}
+                    </p>
                   </div>
                   <div className="glass-card-sm p-4 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/50 hover:shadow-[0_12px_28px_rgba(90,130,190,0.16),0_4px_10px_rgba(90,130,190,0.08)]">
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">运行状态</p>
-                    <p className="mt-2 text-sm capitalize text-text-body">{primaryModel.status}</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">
+                      运行状态
+                    </p>
+                    <p className="mt-2 text-sm capitalize text-text-body">
+                      {primaryModel.status}
+                    </p>
                   </div>
-                </div>
-
-                <div className="glass-card-sm p-4 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/50 hover:shadow-[0_12px_28px_rgba(90,130,190,0.16),0_4px_10px_rgba(90,130,190,0.08)]">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">部署组件摘要</p>
-                  <p className="mt-2 text-sm text-text-body">
-                    {primaryModel.deployment_summary ?? "Nginx + FastAPI + 推理服务，当前使用 mock 摘要。"}
-                  </p>
                 </div>
               </div>
             ) : (
-              <p className="mt-4 text-sm text-text-muted">暂未找到可展示的 chat 模型。</p>
+              <p className="mt-4 text-sm text-text-muted">
+                暂未找到可展示的 chat 模型。
+              </p>
             )}
           </section>
 
           {alertsQuery.isError ? (
             <section className="glass-card p-5">
-              <h2 className="text-base font-semibold text-text-primary">告警状态</h2>
+              <h2 className="text-base font-semibold text-text-primary">
+                告警状态
+              </h2>
               <div className="mt-4">
                 <SectionError message="告警信息加载失败，不影响其他 Dashboard 模块。" />
               </div>
@@ -426,27 +479,42 @@ function formatConcurrency(summary?: MetricsSummaryResponse) {
   return `${getValueOrFallback(summary.active_concurrency)} / ${getValueOrFallback(summary.max_concurrency)}`;
 }
 
-function getKeysDescription(summary: MetricsSummaryResponse | undefined, isError: boolean) {
+function getKeysDescription(
+  summary: MetricsSummaryResponse | undefined,
+  isError: boolean,
+) {
   if (isError || !summary) return "接口异常时保留卡片结构，避免整页抖动。";
   return `今日新增 ${summary.new_keys_today}，总计 ${summary.total_keys} 个。`;
 }
 
-function getConcurrencyDescription(summary: MetricsSummaryResponse | undefined, isError: boolean) {
+function getConcurrencyDescription(
+  summary: MetricsSummaryResponse | undefined,
+  isError: boolean,
+) {
   if (isError || !summary) return "并发指标不可用时仍保留其余区块。";
   return `当前负载 ${summary.active_concurrency}，容量上限 ${summary.max_concurrency}。`;
 }
 
-function getLatencyDescription(summary: MetricsSummaryResponse | undefined, isError: boolean) {
+function getLatencyDescription(
+  summary: MetricsSummaryResponse | undefined,
+  isError: boolean,
+) {
   if (isError || !summary) return "延迟接口失败不会影响趋势图和平台摘要。";
   return `TTFT P50 ${formatLatency(summary.ttft_p50_ms)}。`;
 }
 
-function getErrorRateDescription(summary: MetricsSummaryResponse | undefined, isError: boolean) {
+function getErrorRateDescription(
+  summary: MetricsSummaryResponse | undefined,
+  isError: boolean,
+) {
   if (isError || !summary) return "质量指标不可用时仍保留其他核心统计。";
   return `429 比例 ${formatPercentage(summary.rate_limit_429_pct)}。`;
 }
 
-function getCapacityDescription(summary: MetricsSummaryResponse | undefined, isError: boolean) {
+function getCapacityDescription(
+  summary: MetricsSummaryResponse | undefined,
+  isError: boolean,
+) {
   if (isError || !summary) return "容量指标缺失时不影响主流程判断。";
   return `显存峰值 ${formatPercentage(summary.gpu_vram_peak_pct)}。`;
 }

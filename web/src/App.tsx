@@ -6,7 +6,7 @@ import { Shell } from "@/components/layout/Shell";
 
 const Audit = lazy(() => import("@/pages/Audit"));
 const CardExample = lazy(() => import("@/pages/CardExample"));
-const Dashboard = lazy(() => import("@/pages/Dashboard"));
+const Dashboard = lazy(() => import("@/pages/Dashboard/Dashboard"));
 const Keys = lazy(() => import("@/pages/Keys"));
 const Login = lazy(() => import("@/pages/Login"));
 const Logs = lazy(() => import("@/pages/Logs"));
